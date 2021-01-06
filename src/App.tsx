@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Card from './components/Card';
+import Layout from './components/Layout';
+import Button from './components/Button';
 
 interface AppProps {}
 
@@ -14,27 +15,12 @@ function App({}: AppProps) {
   }, [count, setCount]);
   // Return the App component.
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <p>
-          Page has been open for <code>{count}</code> seconds.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </p>
-      </header>
-    </div>
+    <Layout>
+      <Card>
+        <Button>I'm a button!</Button>
+        <span className="pt-2 text-center text-gray-600 display">I'm some normal text</span>
+      </Card>
+    </Layout>
   );
 }
 

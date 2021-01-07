@@ -7,7 +7,7 @@ interface CardProps {
 export default ({ children }: CardProps) => (
   <div className="mx-auto relative">
     <Logo />
-    <div className="flex flex-col align-center justify-center w-96 h-48 bg-white text-gray-800 px-5 py-8 rounded border-2 border-gray-200 relative z-10">
+    <div className="flex flex-col align-center shadow-md justify-center w-96 h-48 bg-white text-gray-800 px-5 py-8 rounded relative z-10">
       {children}
     </div>
   </div>

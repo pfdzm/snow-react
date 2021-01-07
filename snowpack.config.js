@@ -9,6 +9,10 @@ module.exports = {
     '@snowpack/plugin-dotenv',
     '@snowpack/plugin-typescript',
     '@snowpack/plugin-postcss',
+    [
+      '@snowpack/plugin-build-script',
+      { cmd: 'postcss', input: ['.css'], output: ['.css'] },
+    ],
   ],
   install: [
     /* ... */

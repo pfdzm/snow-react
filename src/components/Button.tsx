@@ -1,11 +1,20 @@
 import * as React from 'react';
 
-interface ButtonProps {
-  children: string;
-}
-
-export default ({ children }: ButtonProps) => (
-  <button className="py-1 px-2 rounded text-gray-600 bg-yellow-300">
-    {children}
+const Button: React.FC<{ className?: string; onClick?: () => void }> = ({
+  children,
+  className,
+  ...rest
+}) => (
+  <button
+    className={
+      className
+        ? className
+        : 'self-end py-4 px-8 text-lg rounded-full bg-yellow-300 hover:bg-yellow-400 transform'
+    }
+    {...rest}
+  >
+    <strong>{children}</strong>
   </button>
 );
+
+export default Button;

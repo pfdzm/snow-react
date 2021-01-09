@@ -1,14 +1,13 @@
 import * as React from 'react';
 import Logo from './Logo';
 
-interface CardProps {
-  children: JSX.Element | JSX.Element[];
-}
-export default ({ children }: CardProps) => (
+const Card: React.FC = ({ children }) => (
   <div className="mx-auto relative">
     <Logo />
-    <div className="flex flex-col align-center shadow-md justify-center w-96 h-48 bg-white text-gray-800 px-5 py-8 rounded relative z-10">
-      {children}
+    <div className="shadow-md justify-center max-w-3xl bg-white text-gray-800 px-10 py-16 rounded relative z-10">
+      <main className="flex flex-col align-center prose">{children}</main>
     </div>
   </div>
 );
+
+export default Card;

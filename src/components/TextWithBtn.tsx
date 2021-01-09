@@ -1,21 +1,28 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
 import { useQuery } from '../hooks/useQuery';
 import Button from './Button';
 
 const TextWithBtn: React.FC = () => {
   let query = useQuery();
   const id = query.get('id');
-  const [magicId, setMagicId] = useState<string | undefined>();
+  let auth = useAuth();
+  let history = useHistory();
+  let location = useLocation<{ from: { pathname: string } }>();
+  let { from } = location.state || { from: { pathname: '/' } };
   useEffect(() => {
     if (id) {
-      setMagicId(id);
+      auth?.signin(() => {
+        history.replace(from);
+      }, id);
     }
   }, [id]);
 
   return (
     <>
       <h1>This is a title!</h1>
-      {magicId ? <h3>Your magic id is {magicId}</h3> : null}
+      {auth?.user ? <h3>Your secret token was {auth?.user}</h3> : null}
       <p>
         And this is some text! Lorem ipsum dolor, sit amet consectetur
         adipisicing elit. Sit molestias corrupti voluptatum, quas totam sequi

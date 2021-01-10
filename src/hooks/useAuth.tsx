@@ -16,10 +16,21 @@ interface IAuth {
 
 const fakeAuth = {
   isAuthenticated: false,
-  signin(cb: () => void, token: string) {
-    if (token && token === 'secret-auth-string') {
+  async signin(cb: (obtoken: string) => void, token: string) {
+    const response = await fetch('http://localhost:8080/token', {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      method: 'POST',
+      body: JSON.stringify({ token: token }),
+    });
+    const { token: obtoken } = await response.json();
+
+    console.log(obtoken);
+
+    if (obtoken && obtoken === 'top-secret-token') {
       fakeAuth.isAuthenticated = true;
-      setTimeout(cb, 100); // fake async
+      cb(obtoken);
     }
   },
   signout(cb: () => void) {
@@ -40,11 +51,9 @@ export const useAuth = () => {
 export const useProvideAuth: () => IAuth = () => {
   const [user, setUser] = useState<null | string>(null);
 
-  const signin = (cb: () => void, token: string) => {
-    return fakeAuth.signin(() => {
-      setUser(token);
-      cb();
-    }, token);
+  const signin = async (cb: () => void, token: string) => {
+    cb();
+    return await fakeAuth.signin(setUser, token);
   };
 
   const signout = (cb: () => void) => {

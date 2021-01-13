@@ -1,10 +1,11 @@
 import * as React from 'react';
 
-const Button: React.FC<{ className?: string; onClick?: () => void }> = ({
-  children,
-  className,
-  ...rest
-}) => (
+const Button: React.FC<{
+  className?: string;
+  onClick?: () => void;
+  disabled?: boolean;
+  type?: 'button' | 'submit' | 'reset';
+}> = ({ children, className, ...rest }) => (
   <button
     className={
       className

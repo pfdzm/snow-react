@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { useQuery } from '../hooks/useQuery';
 import Button from './Button';
+import { useForm } from 'react-hook-form';
 
 const TextWithBtn: React.FC = () => {
   let query = useQuery();
@@ -11,6 +12,23 @@ const TextWithBtn: React.FC = () => {
   let history = useHistory();
   let location = useLocation<{ from: { pathname: string } }>();
   let { from } = location.state || { from: { pathname: '/' } };
+
+  type Inputs = {
+    email: string;
+  };
+
+  const { register, handleSubmit, formState } = useForm<Inputs>({
+    mode: 'onChange',
+  });
+
+  const { isValid, errors } = formState;
+  const onSubmit = (data: any) => console.log(data);
+
+  const fieldRef = useRef<HTMLInputElement>();
+
+  useEffect(() => {
+    fieldRef?.current?.focus();
+  }, [fieldRef]);
 
   useEffect(() => {
     if (id) {
@@ -23,6 +41,22 @@ const TextWithBtn: React.FC = () => {
   return (
     <>
       <h1>This is a title!</h1>
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-6">
+        <label htmlFor="email">What's your email address?</label>
+        <input
+          type="text"
+          name="email"
+          className="focus:ring-yellow-300 focus:border-yellow-300"
+          ref={(e: HTMLInputElement) => {
+            register(e, { required: true });
+            fieldRef.current = e;
+          }}
+          required
+        />
+        <Button disabled={!formState.isValid} type="submit">
+          Submit
+        </Button>
+      </form>
       {auth?.user ? (
         <>
           <h3>

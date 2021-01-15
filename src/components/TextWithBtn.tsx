@@ -4,6 +4,9 @@ import { useAuth } from '../hooks/useAuth';
 import { useQuery } from '../hooks/useQuery';
 import Button from './Button';
 import { useForm } from 'react-hook-form';
+import toast, { Toaster } from 'react-hot-toast';
+
+const notify = () => toast('Signing out!');
 
 const TextWithBtn: React.FC = () => {
   let query = useQuery();
@@ -41,7 +44,11 @@ const TextWithBtn: React.FC = () => {
   return (
     <>
       <h1>This is a title!</h1>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-6">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col space-y-6"
+      >
+        <Toaster />
         <label htmlFor="email">What's your email address?</label>
         <input
           type="text"
@@ -64,6 +71,7 @@ const TextWithBtn: React.FC = () => {
           </h3>
           <Button
             onClick={() => {
+              notify();
               auth?.signout(() => {});
             }}
           >

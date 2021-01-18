@@ -49,17 +49,22 @@ const TextWithBtn: React.FC = () => {
         className="flex flex-col space-y-6"
       >
         <Toaster />
-        <label htmlFor="email">What's your email address?</label>
-        <input
-          type="text"
-          name="email"
-          className="focus:ring-yellow-300 focus:border-yellow-300"
-          ref={(e: HTMLInputElement) => {
-            register(e, { required: true });
-            fieldRef.current = e;
-          }}
-          required
-        />
+        <div>
+          <label htmlFor="email">What's your email address?</label>
+          <div aria-hidden className="w-full h-full relative">
+            <div className="absolute hover:bg-green-300 w-full h-1 transition-opacity duration-300 ease-in-out opacity-0 hover:opacity-100"></div>
+            <input
+              type="text"
+              name="email"
+              className="focus:ring-yellow-300 focus:border-yellow-300 w-full"
+              ref={(e: HTMLInputElement) => {
+                register(e, { required: true });
+                fieldRef.current = e;
+              }}
+              required
+            />
+          </div>
+        </div>
         <Button disabled={!formState.isValid} type="submit">
           Submit
         </Button>

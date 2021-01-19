@@ -27,12 +27,6 @@ const TextWithBtn: React.FC = () => {
   const { isValid, errors } = formState;
   const onSubmit = (data: any) => console.log(data);
 
-  const fieldRef = useRef<HTMLInputElement>();
-
-  useEffect(() => {
-    fieldRef?.current?.focus();
-  }, [fieldRef]);
-
   useEffect(() => {
     if (id) {
       auth?.signin(() => {
@@ -52,20 +46,23 @@ const TextWithBtn: React.FC = () => {
         <div>
           <label htmlFor="email">What's your email address?</label>
           <div aria-hidden className="w-full h-full relative">
-            <div className="absolute hover:bg-green-300 w-full h-1 transition-opacity duration-300 ease-in-out opacity-0 hover:opacity-100"></div>
             <input
               type="text"
               name="email"
               className="focus:ring-yellow-300 focus:border-yellow-300 w-full"
               ref={(e: HTMLInputElement) => {
-                register(e, { required: true });
-                fieldRef.current = e;
+                register(e, { required: 'This field is required!' });
               }}
               required
             />
+            {errors.email && (
+              <div className="text-red-700 font-medium text-sm">
+                {errors.email.message}
+              </div>
+            )}
           </div>
         </div>
-        <Button disabled={!formState.isValid} type="submit">
+        <Button disabled text-sm={!formState.isValid} type="submit">
           Submit
         </Button>
       </form>

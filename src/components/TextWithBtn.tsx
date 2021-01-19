@@ -51,7 +51,11 @@ const TextWithBtn: React.FC = () => {
               name="email"
               className="focus:ring-yellow-300 focus:border-yellow-300 w-full"
               ref={(e: HTMLInputElement) => {
-                register(e, { required: 'This field is required!' });
+                register(e, {
+                  required: 'This field is required!',
+                  validate: (value: string) =>
+                    /\S+@\S+/gi.test(value) || 'Invalid email address',
+                });
               }}
               required
             />

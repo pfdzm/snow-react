@@ -20,7 +20,7 @@ const TextWithBtn: React.FC = () => {
     email: string;
   };
 
-  const { register, handleSubmit, formState } = useForm<Inputs>({
+  const { register, handleSubmit, formState, setValue } = useForm<Inputs>({
     mode: 'onChange',
   });
 
@@ -55,6 +55,12 @@ const TextWithBtn: React.FC = () => {
                   required: 'This field is required!',
                   validate: (value: string) =>
                     /\S+@\S+/gi.test(value) || 'Invalid email address',
+                });
+              }}
+              onChange={(e) => {
+                setValue('email', e.target.value.toLowerCase(), {
+                  shouldDirty: true,
+                  shouldValidate: true,
                 });
               }}
               required

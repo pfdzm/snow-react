@@ -47,7 +47,7 @@ const TextWithBtn: React.FC = () => {
           <label htmlFor="email">What's your email address?</label>
           <div aria-hidden className="w-full h-full relative">
             <input
-              type="text"
+              type="email"
               name="email"
               className="focus:ring-yellow-300 focus:border-yellow-300 w-full"
               ref={(e: HTMLInputElement) => {
@@ -58,21 +58,24 @@ const TextWithBtn: React.FC = () => {
                 });
               }}
               onChange={(e) => {
-                setValue('email', e.target.value.toLowerCase(), {
-                  shouldDirty: true,
-                  shouldValidate: true,
-                });
+                setValue('email', e.target.value.toLowerCase(), {});
               }}
               required
             />
-            {errors.email && (
-              <div className="text-red-700 font-medium text-sm">
-                {errors.email.message}
-              </div>
-            )}
+            <div className="text-red-700 font-medium text-sm">
+              {errors.email && errors.email.message}&nbsp;
+            </div>
           </div>
         </div>
-        <Button disabled text-sm={!formState.isValid} type="submit">
+        <Button
+          disabled={!formState.isValid}
+          type="submit"
+          className={
+            !formState.isValid
+              ? 'self-end py-4 px-8 text-lg rounded-full bg-gray-200 transform'
+              : 'self-end py-4 px-8 text-lg rounded-full bg-yellow-300 hover:bg-yellow-400 transform'
+          }
+        >
           Submit
         </Button>
       </form>

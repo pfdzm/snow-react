@@ -1,4 +1,5 @@
 import React from 'react';
+import { Toaster } from 'react-hot-toast';
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
 import { PrivateRoute, ProvideAuth } from '../hooks/useAuth';
 import Card from './Card';
@@ -21,6 +22,7 @@ const App: React.FC = () => {
             </li>
           </ul>
         </nav>
+        <Toaster />
         <Layout>
           <Card>
             <Switch>

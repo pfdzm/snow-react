@@ -1,4 +1,5 @@
 import * as React from 'react';
+import toast from 'react-hot-toast';
 import { Redirect, Route, RouteProps, useHistory } from 'react-router-dom';
 const { useContext, createContext, useState } = React;
 
@@ -8,22 +9,38 @@ const { useContext, createContext, useState } = React;
  */
 const authContext = createContext<IAuth | undefined>(undefined);
 
-interface IAuth {
-  user: null | string;
-  signin: (cb: () => void, token: string) => void;
-  signout: (cb: () => void) => void;
-}
-
-const fakeAuth = {
-  isAuthenticated: false,
-  async signin(cb: (obtoken: string) => void, token: string) {
-    const response = await fetch('http://localhost:8080/token', {
+const loginFn = (token: string) => {
+  try {
+    return fetch('http://localhost:3000/token', {
       headers: {
         'Content-Type': 'application/json',
       },
       method: 'POST',
       body: JSON.stringify({ token: token }),
     });
+  } catch (error) {
+    throw error;
+  }
+};
+interface IAuth {
+  user: null | string;
+  signin: (cb: () => void, token: string) => Promise<void>;
+  signout: (cb: () => void) => void;
+}
+
+const fakeAuth = {
+  isAuthenticated: false,
+  async signin(cb: (obtoken: string) => void, token: string) {
+    const fetchPromise = loginFn(token);
+    
+    toast.promise(fetchPromise, {
+      loading: 'Loading...',
+      error: 'Error!',
+      success: 'Logged in!',
+    });
+
+    const response = await fetchPromise;
+
     const { token: obtoken } = await response.json();
 
     console.log(obtoken);

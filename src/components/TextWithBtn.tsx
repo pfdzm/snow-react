@@ -42,7 +42,6 @@ const TextWithBtn: React.FC = () => {
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col space-y-6"
       >
-        <Toaster />
         <div>
           <label htmlFor="email">What's your email address?</label>
           <div aria-hidden className="w-full h-full relative">

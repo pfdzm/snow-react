@@ -1,6 +1,7 @@
 import * as React from 'react';
 import toast from 'react-hot-toast';
 import { Redirect, Route, RouteProps, useHistory } from 'react-router-dom';
+import { BFF_BASE_URL } from '../config/constants';
 const { useContext, createContext, useState } = React;
 
 /** For more details on
@@ -11,7 +12,7 @@ const authContext = createContext<IAuth | undefined>(undefined);
 
 const loginFn = (token: string) => {
   try {
-    return fetch('http://localhost:3000/token', {
+    return fetch(`${BFF_BASE_URL}/token`, {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -32,7 +33,7 @@ const fakeAuth = {
   isAuthenticated: false,
   async signin(cb: (obtoken: string) => void, token: string) {
     const fetchPromise = loginFn(token);
-    
+
     toast.promise(fetchPromise, {
       loading: 'Loading...',
       error: 'Error!',
@@ -70,6 +71,7 @@ export const useProvideAuth: () => IAuth = () => {
 
   const signin = async (cb: () => void, token: string) => {
     cb();
+    setUser;
     return await fakeAuth.signin(setUser, token);
   };
 

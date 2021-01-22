@@ -1,10 +1,9 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
+import toast from 'react-hot-toast';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { useQuery } from '../hooks/useQuery';
 import Button from './Button';
-import { useForm } from 'react-hook-form';
-import toast, { Toaster } from 'react-hot-toast';
 
 const notify = () => toast('Signing out!');
 
@@ -15,17 +14,6 @@ const TextWithBtn: React.FC = () => {
   let history = useHistory();
   let location = useLocation<{ from: { pathname: string } }>();
   let { from } = location.state || { from: { pathname: '/' } };
-
-  type Inputs = {
-    email: string;
-  };
-
-  const { register, handleSubmit, formState, setValue } = useForm<Inputs>({
-    mode: 'onChange',
-  });
-
-  const { isValid, errors } = formState;
-  const onSubmit = (data: any) => console.log(data);
 
   useEffect(() => {
     if (id) {
@@ -38,46 +26,6 @@ const TextWithBtn: React.FC = () => {
   return (
     <>
       <h1>This is a title!</h1>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col space-y-6"
-      >
-        <div>
-          <label htmlFor="email">What's your email address?</label>
-          <div aria-hidden className="w-full h-full relative">
-            <input
-              type="email"
-              name="email"
-              className="focus:ring-yellow-300 focus:border-yellow-300 w-full"
-              ref={(e: HTMLInputElement) => {
-                register(e, {
-                  required: 'This field is required!',
-                  validate: (value: string) =>
-                    /\S+@\S+/gi.test(value) || 'Invalid email address',
-                });
-              }}
-              onChange={(e) => {
-                setValue('email', e.target.value.toLowerCase(), {});
-              }}
-              required
-            />
-            <div className="text-red-700 font-medium text-sm">
-              {errors.email && errors.email.message}&nbsp;
-            </div>
-          </div>
-        </div>
-        <Button
-          disabled={!formState.isValid}
-          type="submit"
-          className={
-            !formState.isValid
-              ? 'self-end py-4 px-8 text-lg rounded-full bg-gray-200 transform'
-              : 'self-end py-4 px-8 text-lg rounded-full bg-yellow-300 hover:bg-yellow-400 transform'
-          }
-        >
-          Submit
-        </Button>
-      </form>
       {auth?.user ? (
         <>
           <h3>

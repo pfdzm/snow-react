@@ -70,9 +70,10 @@ export const useProvideAuth: () => IAuth = () => {
   const [user, setUser] = useState<null | string>(null);
 
   const signin = async (cb: () => void, token: string) => {
-    cb();
-    setUser;
-    return await fakeAuth.signin(setUser, token);
+    return await fakeAuth.signin((obtoken) => {
+      cb();
+      setUser(obtoken);
+    }, token);
   };
 
   const signout = (cb: () => void) => {
